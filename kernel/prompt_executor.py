@@ -1,7 +1,8 @@
 from semantic_kernel.connectors.ai.chat_completion_client_base import ChatCompletionClientBase
 from semantic_kernel.contents.chat_history import ChatHistory
 from semantic_kernel.connectors.ai.open_ai import OpenAITextPromptExecutionSettings
-from models.prompt_result import PromptResult
+from models import PromptResult
+
 class PromptExecutor:
 
     @staticmethod
