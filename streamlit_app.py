@@ -1,11 +1,9 @@
 import asyncio
 import streamlit as st
 from resources import spinner_html
-from kernel import KernelFactory, OpenAIModels, PromptExecutor
-from semantic_kernel.connectors.ai.chat_completion_client_base import ChatCompletionClientBase
+from kernel import KernelFactory, OpenAIModels, PromptExecutor, PromptResult
 from semantic_kernel.contents.chat_history import ChatHistory
 from semantic_kernel.connectors.ai.open_ai import OpenAITextPromptExecutionSettings
-
 
 st.set_page_config(layout="wide")
 
@@ -46,13 +44,12 @@ if run_button:
             )
             tasks = []
             for model in models:
-                chat_completion_service = kernel.get_service(model, ChatCompletionClientBase)
-                tasks.append(PromptExecutor.execute(chat_completion_service, history, settings))
+                tasks.append(PromptExecutor.execute(kernel,model, history, settings))
 
             with col2:
                 spinner_placeholder = st.empty()
                 spinner_placeholder.markdown(spinner_html, unsafe_allow_html=True)
-                answers = await asyncio.gather(*tasks)
+                answers : list[PromptResult] = await asyncio.gather(*tasks)
 
             spinner_placeholder.empty()
 
@@ -63,9 +60,9 @@ if run_button:
                         with col:
                             st.markdown(answer.answer)
                             st.code(f"""
-                            Prompt tokens: {answer.prompt_tokens}
-                            Completion tokens: {answer.completion_tokens}
-                            Total tokens: {answer.total_tokens}
+                            Input: {answer.input.tokens} tokens (${answer.input.cost})
+                            Output: {answer.output.tokens} tokens (${answer.output.cost})
+                            Total: {answer.total.tokens} tokens (${answer.total.cost})
                             """)
 
         asyncio.run(run_prompt())
