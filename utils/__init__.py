@@ -1,5 +1,7 @@
 from .cost_calculator import CostCalculator
+from .spinner import spinner_html
 
 __all__ =[
-    "CostCalculator"
+    "CostCalculator",
+    "spinner_html"
 ]
