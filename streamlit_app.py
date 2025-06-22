@@ -15,8 +15,12 @@ st.set_page_config(
 st.markdown("""
     # Prompt playground
                     
-    📊 Try your prompts with various models and configurations
+    ##### 📊 Test your prompts with various models and configurations
+    You can experiment with different settings and run prompts on multiple models at once to see differences in output, helping you craft the perfect prompt for your specific needs.
+    
+    ###### ⭐ If you are enjoying your experience please leave a Star <iframe src="https://ghbtns.com/github-btn.html?user=niemiecjakub&repo=prompt-playground&type=star&count=true"  width="auto" height="20" title="GitHub"></iframe>
     """, unsafe_allow_html=True)
+
 st.divider()
 
 with st.sidebar:
