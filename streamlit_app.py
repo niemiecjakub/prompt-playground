@@ -1,6 +1,6 @@
 import asyncio
 import streamlit as st
-from utils import spinner_html
+from utils import spinner_html, ApiKeyValidator
 from kernel import KernelFactory, OpenAIModels, PromptExecutor, PromptResult
 from semantic_kernel.contents.chat_history import ChatHistory
 from semantic_kernel.connectors.ai.open_ai import OpenAITextPromptExecutionSettings
@@ -63,8 +63,13 @@ async def run_prompt():
 if run_button:
     if api_key and models and user_message:
         try:
-            asyncio.run(run_prompt())
-            st.markdown("<script>window.scrollTo(0, document.body.scrollHeight);</script>", unsafe_allow_html=True)
+            is_api_key_valid = ApiKeyValidator.validate(api_key)
+            if is_api_key_valid:
+                asyncio.run(run_prompt())
+            else:
+                with col2:
+                    st.warning("Provided OpenAI API key is invalid.", icon="🔐")
+
         except Exception as e:
             spinner_placeholder.empty()
             results_info.error(f"❌ Error occurred: {str(e)}")
