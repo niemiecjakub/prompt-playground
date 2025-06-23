@@ -1,4 +1,6 @@
-## 📊 Prompt playground - Test your prompts with various models and configurations
+# 📊 Prompt playground 
+
+**Test your prompts with various models and configurations**
 
 Prompt engineering is iterative process. This app streamlines the loop by providing instant feedback and enabling live experimentation, useful for both quick prototyping and deeper analysis.
 
