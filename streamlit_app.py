@@ -31,8 +31,8 @@ with st.sidebar:
 col1, col2 = st.columns([2, 3])
 
 with col1:
-    system_message = st.text_area("💬 System message", "You are a helpful assistant", placeholder="System message")
-    user_message = st.text_area("💬 User message", "", placeholder="User message")
+    system_message = st.text_area("💬 System message", placeholder="Describe desired model behaviour")
+    user_message = st.text_area("💬 User message", placeholder="User message")
     models = st.multiselect("🤖 Models", OpenAIModels.get_model_ids())
     expander = st.expander("Settings ", icon="🛠️")
     max_tokens = expander.number_input("Max tokens", min_value=0, max_value=1000000, step=100, value=1500)
@@ -48,7 +48,8 @@ with col2:
 
 async def run_prompt():
     history = ChatHistory()
-    history.add_system_message(system_message)
+    if system_message:
+        history.add_system_message(system_message)
     history.add_user_message(user_message)
     kernel = KernelFactory.create(api_key, models)
     settings = OpenAITextPromptExecutionSettings(
@@ -72,11 +73,11 @@ if run_button:
                 asyncio.run(run_prompt())
             else:
                 with col2:
-                    st.error("Provided OpenAI API key is invalid.", icon="🔐❌")
+                    st.error("Provided OpenAI API key is invalid.",icon="❌")
 
         except Exception as e:
             spinner_placeholder.empty()
-            results_info.error(f"❌ Error occurred: {str(e)}")
+            results_info.error(f"Error occurred: {str(e)}", icon="❌")
     else:
         with col2:
             if not api_key:
