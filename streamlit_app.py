@@ -72,7 +72,7 @@ if run_button:
                 asyncio.run(run_prompt())
             else:
                 with col2:
-                    st.warning("Provided OpenAI API key is invalid.", icon="🔐")
+                    st.error("Provided OpenAI API key is invalid.", icon="🔐❌")
 
         except Exception as e:
             spinner_placeholder.empty()
